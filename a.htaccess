@@ -1,0 +1,42 @@
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME}.php -f
+	RewriteRule ^(.*)$ $1.php [L] 
+	# permet de ne pas voir l'extension .php des pages dans la barre URL.
+	# On y retrouve l’accent circonflexe (début) et le dollar (fin).
+	# Les parenthèses permettent elles de copier ce que l’on trouve dedans vers une variable de type $n. Dans notre cas tout ce qui est trouvé par l’expression .* va se retrouver dans la variable $1.
+	# Pour finir, le point signifie n’importe quel caractère et l’astérisque la répétition. (.*) met dans la variable $1 tout ce qui suit le domaine. Dans http://localhost/13-framework/web/inscription, $1 sera égale à inscription
+	# [L] veut dire que la condition est fini.
+	# Nous allons récupérer tout ce qui ce trouve derrière le domaine. Cette étape est faite par la regex ^(.*)$.
+	# -f : Traite « Chaîne_de_test » comme un chemin, vérifie s'il existe ou pas, et s'il s'agit d'un fichier régulier.
+
+	RewriteRule ^web - [L]
+	RewriteRule .* http://localhost/exemples_evogue_php/13-projet_framework/13-projet_framework_employes/web/$0 [L]
+	# le tiret - permet de mettre le [L] drapeau pour LAST, sinon il tenterait d'écrire web/[L] directement dans l'url.
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Tutoriel : http://www.picxi.net/2011-07-multi-domaines-htaccess/ - http://craym.eu/tutoriels/referencement/url_rewriting.html.
+# RewriteRule ^foo.html$ test.html [L] 
+# Nous indiquons que si la page demandée commence et finit par « foo.html » (donc est exactement ce fichier), on affiche le fichier « test.html » et on stoppe la réécriture (le drapeau [L] qui signifie "Last")
+# Option 	+FollowSymlinks 	Active la gestion des URL symboliques.
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# HTACCESS SUR EVOGUE POUR INFORMATION :
+# Options +FollowSymLinks
+# RewriteEngine on
+
+
+# RewriteCond %{HTTP_HOST} ^(www.)?evogue.fr$ 
+## Changer 'web' par le dossier que vous voulez utilisez
+# RewriteCond %{REQUEST_URI} !^/web/ 
+## Ne pas changer les 2 lignes suivantes
+# RewriteCond %{REQUEST_FILENAME} !-f 
+# RewriteCond %{REQUEST_FILENAME} !-d 
+## Changer 'web' par le dossier que vous voulez utilisez
+# RewriteRule ^(.*)$ /web/$1 
+## Changer evogue.fr par le domaine ou lon accede
+## Changer 'web' par le dossier que vous voulez utilisez
+## apres le / inscrire le premier fichier de votre site, index.php, index.html, etc. 
+# RewriteCond %{HTTP_HOST} ^(www.)?evogue.fr$ 
+# RewriteRule ^(/)?$ web/index.php [L]
+
+# RewriteCond %{REQUEST_FILENAME}.php -f
+# RewriteRule ^(.*)$ $1.php [L] 
